@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq", "Moq\Moq.csproj", "{94C6E90B-5AC1-4A93-A57C-56DE4B1D9BE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq.Sdk", "Moq.Sdk\Moq.Sdk.csproj", "{5967E307-A008-4EDB-B2DB-A97A1B9B1956}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq.Sdk.UnitTests", "Moq.Sdk.UnitTests\Moq.Sdk.UnitTests.csproj", "{D21B55BB-D92B-4255-9E1A-EC1DC977354C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq.UnitTests", "Moq.UnitTests\Moq.UnitTests.csproj", "{60E28469-81DB-4C58-A112-614D02C26661}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0D28320E-7E68-4B8E-ACBE-2E6CA3793712}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35D5A6DD-8B78-4B60-9EC5-730902E1ADF2}"
+	ProjectSection(SolutionItems) = preProject
+		Solution Items\GlobalAssemblyInfo.cs = Solution Items\GlobalAssemblyInfo.cs
+		Solution Items\Moq.licenseheader = Solution Items\Moq.licenseheader
+		Solution Items\Moq.properties = Solution Items\Moq.properties
+		Solution Items\Moq.targets = Solution Items\Moq.targets
+		Solution Items\Moq.Tests.properties = Solution Items\Moq.Tests.properties
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94C6E90B-5AC1-4A93-A57C-56DE4B1D9BE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C6E90B-5AC1-4A93-A57C-56DE4B1D9BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C6E90B-5AC1-4A93-A57C-56DE4B1D9BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C6E90B-5AC1-4A93-A57C-56DE4B1D9BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5967E307-A008-4EDB-B2DB-A97A1B9B1956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5967E307-A008-4EDB-B2DB-A97A1B9B1956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5967E307-A008-4EDB-B2DB-A97A1B9B1956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5967E307-A008-4EDB-B2DB-A97A1B9B1956}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21B55BB-D92B-4255-9E1A-EC1DC977354C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21B55BB-D92B-4255-9E1A-EC1DC977354C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21B55BB-D92B-4255-9E1A-EC1DC977354C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21B55BB-D92B-4255-9E1A-EC1DC977354C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E28469-81DB-4C58-A112-614D02C26661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E28469-81DB-4C58-A112-614D02C26661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E28469-81DB-4C58-A112-614D02C26661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E28469-81DB-4C58-A112-614D02C26661}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

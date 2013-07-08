@@ -1,0 +1,8 @@
+/drop
+/spikes
+src/packages
+obj
+bin
+*.snk
+*.user
+*.suo
