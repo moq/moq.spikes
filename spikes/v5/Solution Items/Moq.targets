@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="AfterBuild"
+					Condition="!$(AssemblyName.Contains('Test'))">
+		<Exec Command="mkdir &quot;$(DropDir)&quot;"
+					Condition="!(Exists($(DropDir)))"
+					ContinueOnError="true"/>
+		<CreateItem Include="$(OutDir)$(TargetName).*">
+			<Output ItemName="BinariesToCopy" TaskParameter="Include"/>
+		</CreateItem>
+		<Copy SourceFiles="@(BinariesToCopy)"
+					DestinationFolder="$(DropDir)"
+					OverwriteReadOnlyFiles="true" />
+	</Target>
+
+    <Target Name="BeforeBuild">
+        <ItemGroup>
+            <TextTemplate Include="**\*.t4">
+                <Visible>False</Visible>
+            </TextTemplate>
+            <TextTemplate Include="**\*.tt">
+                <Visible>False</Visible>
+            </TextTemplate>
+        </ItemGroup>
+        <PropertyGroup>
+            <TextTransform>$(CommonProgramFiles)\Microsoft Shared\TextTemplating\$(VisualStudioVersion)\TextTransform.exe</TextTransform>
+        </PropertyGroup>
+        <Message Text="Transforming Text Templates" Condition=" '@(TextTemplate)' != '' "/>
+        <Message Text="No Text Templates to Transform" Condition=" '@(TextTemplate)' == '' "/>
+        <Exec Command="&quot;$(TextTransform)&quot; %(TextTemplate.FullPath)"
+              Condition=" '@(TextTemplate)' != '' "/>
+    </Target>
+    
+</Project>
