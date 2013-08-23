@@ -27,12 +27,20 @@ namespace Moq.Sdk
     {
         protected MockBase()
         {
+            this.Invocations = new List<IInvocation>();
+            this.Behaviors = new List<Behavior>();
         }
 
         public virtual void Invoke(IInvocation invocation)
         {
+            this.Invocations.Add(invocation);
+
+            var behavior = this.Behaviors.FirstOrDefault(x => x.AppliesTo(invocation));
+            if (behavior != null)
+                behavior.ExecuteFor(invocation);
         }
 
-        public IList<IInvocation> Invocation { get; private set; }
+        public IList<Behavior> Behaviors { get; private set; }
+        public IList<IInvocation> Invocations { get; private set; }
     }
 }

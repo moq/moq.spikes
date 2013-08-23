@@ -24,7 +24,8 @@ namespace Moq.Sdk
 
     public interface IMock
     {
-        IList<IInvocation> Invocation { get; }
+        IList<Behavior> Behaviors { get; }
+        IList<IInvocation> Invocations { get; }
 
         void Invoke(IInvocation invocation);
     }

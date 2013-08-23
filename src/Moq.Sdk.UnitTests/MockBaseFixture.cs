@@ -19,6 +19,7 @@
 namespace Moq.Sdk.UnitTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Xunit;
 
@@ -27,10 +28,79 @@ namespace Moq.Sdk.UnitTests
         [Fact]
         public void when_invocation_performed_then_records_invocation()
         {
+            var invocation = new TestInvocation(() => null);
+            var mock = new TestMock();
 
+            mock.Invoke(invocation);
 
+            Assert.Equal(1, mock.Invocations.Count);
+            Assert.Same(invocation, mock.Invocations[0]);
         }
 
+        [Fact]
+        public void when_behavior_matches_invocation_then_it_is_called()
+        {
+            var mock = new TestMock();
+            IInvocation invocation = null;
+ 
+            var behavior = new Behavior(i => true, i => invocation = i);
 
+            mock.Behaviors.Add(behavior);
+
+            mock.Invoke(new TestInvocation(() => null));
+
+            Assert.NotNull(invocation);
+        }
+
+        [Fact]
+        public void when_behavior_is_executed_then_behavior_tracks_invocation()
+        {
+            var mock = new TestMock();
+            var invocation = new TestInvocation(() => null);
+            var behavior = new Behavior(i => true, i => { });
+            mock.Behaviors.Add(behavior);
+
+            mock.Invoke(invocation);
+
+            Assert.Equal(1, behavior.Invocations.Count);
+            Assert.Same(invocation, behavior.Invocations[0]);
+        }
+
+        [Fact]
+        public void when_behavior_throws_then_invocation_is_still_recorded()
+        {
+            var mock = new TestMock();
+            var invocation = new TestInvocation(() => null);
+            var behavior = new Behavior(i => true, i => { throw new ArgumentException(); });
+            mock.Behaviors.Add(behavior);
+
+            Assert.Throws<ArgumentException>(() => mock.Invoke(invocation));
+
+            Assert.Equal(1, behavior.Invocations.Count);
+            Assert.Same(invocation, behavior.Invocations[0]);
+        }
+
+        [Fact]
+        public void when_aspects_configured_then_invokes_in_order()
+        {
+            var mock = new TestMock();
+            var invocation = new TestInvocation(() => null);
+            var order = new List<string>();
+
+            var behavior = new Behavior(i => true, i => { throw new ArgumentException(); });
+            behavior.Before.Add(new Aspect(i => order.Add("before")));
+            behavior.Invoke.Add(new Aspect(i => order.Add("invoke")));
+            behavior.After.Add(new Aspect(i => order.Add("after")));
+
+            mock.Behaviors.Add(behavior);
+        }
+
+        //mock.Setup(x => x.Add(It.IsAny<int>(), It.IsAny<int>()))
+        //    .Callback(() => )
+        //    .Returns(15)
+        //    .Returns(10)
+        //    .Returns(11)
+        //    .Loop()
+        //    .Callback(() => );
     }
 }

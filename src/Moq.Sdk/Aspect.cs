@@ -18,16 +18,21 @@
 
 namespace Moq.Sdk
 {
-    using Moq.Sdk.UnitTests;
     using System;
     using System.Linq;
-    using System.Reflection;
 
-    public class ProxyFactory
+    public class Aspect
     {
-        public object CreateProxy(IMock mock, Type type)
+        private Action<IInvocation> executeFor;
+
+        public Aspect(Action<IInvocation> executeFor)
         {
-            return new CalculatorProxy(mock);
+            this.executeFor = executeFor;
+        }
+
+        public void ExecuteFor(IInvocation invocation)
+        {
+            this.executeFor.Invoke(invocation);
         }
     }
 }

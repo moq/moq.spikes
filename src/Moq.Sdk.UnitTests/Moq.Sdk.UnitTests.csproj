@@ -48,6 +48,7 @@
     <Compile Include="ProxyFactory.cs" />
     <Compile Include="ProxyFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestInvocation.cs" />
     <Compile Include="TestMock.cs" />
   </ItemGroup>
   <ItemGroup>

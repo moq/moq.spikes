@@ -19,43 +19,27 @@
 namespace Moq.Sdk.UnitTests
 {
     using System;
+    using System.Linq;
     using System.Reflection;
 
-    public interface ICalculator
+    public class TestInvocation : IInvocation
     {
-        int Add(int x, int y);
-    }
+        private Func<object> invokeBase;
 
-    public class Calculator : ICalculator
-    {
-        public virtual int Add(int x, int y)
+        public TestInvocation(Func<object> invokeBase)
         {
-            return x + y;
-        }
-    }
-
-    public class CalculatorProxy : Calculator
-    {
-        private IMock mock;
-
-        public CalculatorProxy(IMock mock)
-        {
-            this.mock = mock;
+            this.invokeBase = invokeBase;
         }
 
-        public override int Add(int x, int y)
+        public IMock Mock { get; set; }
+        public object Target { get; set; }
+        public MethodBase Method { get; set; }
+        public object[] Arguments { get; set; }
+        public object ReturnValue { get; set; }
+
+        public void InvokeBase()
         {
-            var invocation = new TestInvocation(() => base.Add(x, y))
-            {
-                Mock = mock,
-                Target = this,
-                Method = typeof(ICalculator).GetMethod("Add"),
-                Arguments = new object[] { x, y }
-            };
-
-            mock.Invoke(invocation);
-
-            return (int)invocation.ReturnValue;
+            this.ReturnValue = this.invokeBase();
         }
     }
 }
