@@ -16,13 +16,13 @@
 */
 #endregion
 
-namespace Moq
+namespace Moq.Sdk
 {
     using System;
     using System.Reflection;
 
-    public interface IProxied
+    public interface IMock
     {
-        void Execute(IInvocation invocation);
+        void Invoke(IInvocation invocation);
     }
 }

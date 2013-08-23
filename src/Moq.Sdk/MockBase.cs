@@ -16,13 +16,13 @@
 */
 #endregion
 
-namespace Moq
+namespace Moq.Sdk
 {
     using System;
     using System.Linq;
     using System.Reflection;
 
-    public class MockBase : IProxied
+    public class MockBase : IMock
     {
         private object defaultValue;
         private bool callBase;
@@ -35,7 +35,7 @@ namespace Moq
             this.callBase = callBase;
         }
 
-        public void Execute(IInvocation invocation)
+        public void Invoke(IInvocation invocation)
         {
             this.LastCall = invocation;
             if (callBase)

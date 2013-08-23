@@ -36,9 +36,9 @@ namespace Moq.Sdk.UnitTests
 
     public class CalculatorProxy : Calculator
     {
-        private IProxied mock;
+        private IMock mock;
 
-        public CalculatorProxy(IProxied mock)
+        public CalculatorProxy(IMock mock)
         {
             this.mock = mock;
         }
@@ -53,7 +53,7 @@ namespace Moq.Sdk.UnitTests
                 Arguments = new object[] { x, y }
             };
 
-            mock.Execute(invocation);
+            mock.Invoke(invocation);
 
             return (int)invocation.ReturnValue;
         }

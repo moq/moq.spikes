@@ -16,7 +16,7 @@
 */
 #endregion
 
-namespace Moq
+namespace Moq.Sdk
 {
     using Moq.Sdk.UnitTests;
     using System;
@@ -25,7 +25,7 @@ namespace Moq
 
     public class ProxyFactory
     {
-        public object CreateProxy(IProxied mock, Type type)
+        public object CreateProxy(IMock mock, Type type)
         {
             return new CalculatorProxy(mock);
         }

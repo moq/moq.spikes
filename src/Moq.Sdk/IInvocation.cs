@@ -16,7 +16,7 @@
 */
 #endregion
 
-namespace Moq
+namespace Moq.Sdk
 {
     using System;
     using System.Reflection;
