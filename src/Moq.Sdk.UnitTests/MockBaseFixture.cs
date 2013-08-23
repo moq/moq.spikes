@@ -16,23 +16,21 @@
 */
 #endregion
 
-namespace Moq.Sdk
+namespace Moq.Sdk.UnitTests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
+    using Xunit;
 
-    public abstract class MockBase : IMock
+    public class MockBaseFixture
     {
-        protected MockBase()
+        [Fact]
+        public void when_invocation_performed_then_records_invocation()
         {
+
+
         }
 
-        public virtual void Invoke(IInvocation invocation)
-        {
-        }
 
-        public IList<IInvocation> Invocation { get; private set; }
     }
 }

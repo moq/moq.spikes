@@ -19,10 +19,13 @@
 namespace Moq.Sdk
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
 
     public interface IMock
     {
+        IList<IInvocation> Invocation { get; }
+
         void Invoke(IInvocation invocation);
     }
 }

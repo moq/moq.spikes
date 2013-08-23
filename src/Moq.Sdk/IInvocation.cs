@@ -23,7 +23,7 @@ namespace Moq.Sdk
 
     public interface IInvocation
     {
-        object Mock { get; }
+        IMock Mock { get; }
         object Target { get; }
         MethodBase Method { get; }
         object[] Arguments { get; }

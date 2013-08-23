@@ -16,23 +16,33 @@
 */
 #endregion
 
-namespace Moq.Sdk
+namespace Moq.Sdk.UnitTests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
-    public abstract class MockBase : IMock
+    public class TestMock : MockBase
     {
-        protected MockBase()
+        private object defaultValue;
+        private bool callBase;
+
+        public TestMock(object defaultValue = null, bool callBase = false)
         {
+            this.defaultValue = defaultValue;
+            this.callBase = callBase;
         }
 
-        public virtual void Invoke(IInvocation invocation)
-        {
-        }
+        public IInvocation LastCall { get; private set; }
 
-        public IList<IInvocation> Invocation { get; private set; }
+        public override void Invoke(IInvocation invocation)
+        {
+            base.Invoke(invocation);
+
+            this.LastCall = invocation;
+            if (callBase)
+                invocation.InvokeBase();
+            else
+                invocation.ReturnValue = this.defaultValue;
+        }
     }
 }

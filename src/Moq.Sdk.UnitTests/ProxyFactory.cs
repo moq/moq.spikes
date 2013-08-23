@@ -40,7 +40,7 @@ namespace Moq.Sdk
             this.invokeBase = invokeBase;
         }
 
-        public object Mock { get; set; }
+        public IMock Mock { get; set; }
         public object Target { get; set; }
         public MethodBase Method { get; set; }
         public object[] Arguments { get; set; }

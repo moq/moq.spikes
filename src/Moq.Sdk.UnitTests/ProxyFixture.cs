@@ -29,7 +29,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_factory_invoked_then_gets_implementation_of_interface()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock();
 
             var proxy = factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -41,7 +41,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_instance_called_then_calls_back_into_mock_behavior()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock(defaultValue: 10);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -54,7 +54,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_instance_called_then_can_retrieve_invocation_method()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock(defaultValue: 10);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -67,7 +67,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_instance_called_then_can_retrieve_invocation_arguments()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock(defaultValue: 15);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -81,7 +81,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_instance_called_then_can_retrieve_mock_from_invocation()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock(defaultValue: 15);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -94,7 +94,7 @@ namespace Moq.Sdk.UnitTests
         public void when_proxy_instance_called_then_can_retrieve_invocation_target()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase();
+            var mock = new TestMock(defaultValue: 15);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -107,7 +107,7 @@ namespace Moq.Sdk.UnitTests
         public void when_interface_proxy_called_then_can_set_return_value()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase(100);
+            var mock = new TestMock(100);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 
@@ -120,7 +120,7 @@ namespace Moq.Sdk.UnitTests
         public void when_class_proxy_instance_called_then_can_invoke_base_implementation_from_invocation()
         {
             var factory = new ProxyFactory();
-            var mock = new MockBase(callBase: true);
+            var mock = new TestMock(defaultValue: 15, callBase: true);
 
             var proxy = (ICalculator)factory.CreateProxy(mock, typeof(ICalculator));
 

@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICalculator.cs" />
+    <Compile Include="MockBaseFixture.cs" />
     <Compile Include="ProxyFactory.cs" />
     <Compile Include="ProxyFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestMock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moq.Sdk\Moq.Sdk.csproj">
