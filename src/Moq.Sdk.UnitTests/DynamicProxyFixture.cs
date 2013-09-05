@@ -28,9 +28,7 @@ namespace Moq.Sdk.UnitTests
         public void when_invoking_dynamic_proxy_then_invokes_mock_behavior()
         {
             var mock = new Mock<ICalculator>();
-            mock.Behaviors.Add(new Behavior(
-                i => true,
-                i => { })
+            mock.Behaviors.Add(new Behavior(i => true)
                 {
                     Invoke =
                     {

@@ -25,22 +25,20 @@ namespace Moq.Sdk
     public class Behavior
     {
         private Func<IInvocation, bool> appliesTo;
-        private Action<IInvocation> executeFor;
 
-        public Behavior(Func<IInvocation, bool> appliesTo, Action<IInvocation> executeFor)
+        public Behavior(Func<IInvocation, bool> appliesTo)
         {
-            this.Before = new List<DelegateAspect>();
-            this.Invoke = new List<DelegateAspect>();
-            this.After = new List<DelegateAspect>();
+            this.Before = new List<IAspect>();
+            this.Invoke = new List<IAspect>();
+            this.After = new List<IAspect>();
             this.Invocations = new List<IInvocation>();
 
             this.appliesTo = appliesTo;
-            this.executeFor = executeFor;
         }
 
-        public IList<DelegateAspect> Before { get; private set; }
-        public IList<DelegateAspect> Invoke { get; private set; }
-        public IList<DelegateAspect> After { get; private set; }
+        public IList<IAspect> Before { get; private set; }
+        public IList<IAspect> Invoke { get; private set; }
+        public IList<IAspect> After { get; private set; }
 
         public IList<IInvocation> Invocations { get; private set; }
 
@@ -53,14 +51,12 @@ namespace Moq.Sdk
         {
             this.Invocations.Add(invocation);
 
-            this.executeFor(invocation);
-
             ExecuteAspects(this.Before, invocation);
             ExecuteAspects(this.Invoke, invocation);
             ExecuteAspects(this.After, invocation);
         }
 
-        private void ExecuteAspects(IEnumerable<DelegateAspect> aspects, IInvocation invocation)
+        private void ExecuteAspects(IEnumerable<IAspect> aspects, IInvocation invocation)
         {
             foreach (var aspect in aspects.Where(x => x.AppliesTo(invocation)))
             {

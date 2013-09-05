@@ -42,8 +42,14 @@ namespace Moq.Sdk.UnitTests
         {
             var mock = new TestMock();
             IInvocation invocation = null;
- 
-            var behavior = new Behavior(i => true, i => invocation = i);
+
+            var behavior = new Behavior(i => true)
+                {
+                    Invoke =
+                    {
+                        new DelegateAspect(i => true, i => { invocation = i; return BehaviorAction.Continue; })
+                    }
+                };
 
             mock.Behaviors.Add(behavior);
 
@@ -57,7 +63,7 @@ namespace Moq.Sdk.UnitTests
         {
             var mock = new TestMock();
             var invocation = new TestInvocation(() => null);
-            var behavior = new Behavior(i => true, i => { });
+            var behavior = new Behavior(i => true);
             mock.Behaviors.Add(behavior);
 
             mock.Invoke(invocation);
@@ -71,7 +77,14 @@ namespace Moq.Sdk.UnitTests
         {
             var mock = new TestMock();
             var invocation = new TestInvocation(() => null);
-            var behavior = new Behavior(i => true, i => { throw new ArgumentException(); });
+            var behavior = new Behavior(i => true)
+                {
+                    Invoke =
+                    {
+                        new DelegateAspect(i => true, i => { throw new ArgumentException(); })
+                    }
+                };
+
             mock.Behaviors.Add(behavior);
 
             Assert.Throws<ArgumentException>(() => mock.Invoke(invocation));
@@ -87,7 +100,7 @@ namespace Moq.Sdk.UnitTests
             var invocation = new TestInvocation(() => null);
             var order = new List<string>();
 
-            var behavior = new Behavior(i => true, i => { });
+            var behavior = new Behavior(i => true);
             behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
             behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Continue;  }));
             behavior.After.Add(new DelegateAspect(i => true, i => { order.Add("after"); return BehaviorAction.Continue; }));
@@ -109,7 +122,7 @@ namespace Moq.Sdk.UnitTests
             var invocation = new TestInvocation(() => null);
             var order = new List<string>();
 
-            var behavior = new Behavior(i => true, i => { });
+            var behavior = new Behavior(i => true);
             behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
             behavior.Invoke.Add(new DelegateAspect(i => false, i => { order.Add("invoke-not"); return BehaviorAction.Continue; }));
             behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Continue; }));
@@ -132,7 +145,7 @@ namespace Moq.Sdk.UnitTests
             var invocation = new TestInvocation(() => null);
             var order = new List<string>();
 
-            var behavior = new Behavior(i => true, i => { });
+            var behavior = new Behavior(i => true);
             behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
             behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Stop; }));
             behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke-not"); return BehaviorAction.Continue; }));
