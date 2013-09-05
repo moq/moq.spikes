@@ -21,18 +21,9 @@ namespace Moq.Sdk
     using System;
     using System.Linq;
 
-    public class Aspect
+    public enum BehaviorAction
     {
-        private Action<IInvocation> executeFor;
-
-        public Aspect(Action<IInvocation> executeFor)
-        {
-            this.executeFor = executeFor;
-        }
-
-        public void ExecuteFor(IInvocation invocation)
-        {
-            this.executeFor.Invoke(invocation);
-        }
+        Continue,
+        Stop,
     }
 }

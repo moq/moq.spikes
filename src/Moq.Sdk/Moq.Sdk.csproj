@@ -28,7 +28,8 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Aspect.cs" />
+    <Compile Include="BehaviorAction.cs" />
+    <Compile Include="DelegateAspect.cs" />
     <Compile Include="Behavior.cs" />
     <Compile Include="IInvocation.cs" />
     <Compile Include="IMock.cs" />

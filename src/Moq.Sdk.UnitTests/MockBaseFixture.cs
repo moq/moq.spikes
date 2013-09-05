@@ -87,12 +87,64 @@ namespace Moq.Sdk.UnitTests
             var invocation = new TestInvocation(() => null);
             var order = new List<string>();
 
-            var behavior = new Behavior(i => true, i => { throw new ArgumentException(); });
-            behavior.Before.Add(new Aspect(i => order.Add("before")));
-            behavior.Invoke.Add(new Aspect(i => order.Add("invoke")));
-            behavior.After.Add(new Aspect(i => order.Add("after")));
+            var behavior = new Behavior(i => true, i => { });
+            behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
+            behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Continue;  }));
+            behavior.After.Add(new DelegateAspect(i => true, i => { order.Add("after"); return BehaviorAction.Continue; }));
 
             mock.Behaviors.Add(behavior);
+
+            mock.Invoke(invocation);
+
+            Assert.Equal(3, order.Count);
+            Assert.Equal("before", order[0]);
+            Assert.Equal("invoke", order[1]);
+            Assert.Equal("after", order[2]);
+        }
+
+        [Fact]
+        public void when_aspect_is_disabled_then_does_not_invoke_on_execute()
+        {
+            var mock = new TestMock();
+            var invocation = new TestInvocation(() => null);
+            var order = new List<string>();
+
+            var behavior = new Behavior(i => true, i => { });
+            behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
+            behavior.Invoke.Add(new DelegateAspect(i => false, i => { order.Add("invoke-not"); return BehaviorAction.Continue; }));
+            behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Continue; }));
+            behavior.After.Add(new DelegateAspect(i => true, i => { order.Add("after"); return BehaviorAction.Continue; }));
+
+            mock.Behaviors.Add(behavior);
+
+            mock.Invoke(invocation);
+
+            Assert.Equal(3, order.Count);
+            Assert.Equal("before", order[0]);
+            Assert.Equal("invoke", order[1]);
+            Assert.Equal("after", order[2]);
+        }
+
+        [Fact]
+        public void when_aspect_stops_further_aspects_on_phase_then_does_not_invoke_next_aspect()
+        {
+            var mock = new TestMock();
+            var invocation = new TestInvocation(() => null);
+            var order = new List<string>();
+
+            var behavior = new Behavior(i => true, i => { });
+            behavior.Before.Add(new DelegateAspect(i => true, i => { order.Add("before"); return BehaviorAction.Continue; }));
+            behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke"); return BehaviorAction.Stop; }));
+            behavior.Invoke.Add(new DelegateAspect(i => true, i => { order.Add("invoke-not"); return BehaviorAction.Continue; }));
+            behavior.After.Add(new DelegateAspect(i => true, i => { order.Add("after"); return BehaviorAction.Continue; }));
+            mock.Behaviors.Add(behavior);
+
+            mock.Invoke(invocation);
+
+            Assert.Equal(3, order.Count);
+            Assert.Equal("before", order[0]);
+            Assert.Equal("invoke", order[1]);
+            Assert.Equal("after", order[2]);
         }
 
         //mock.Setup(x => x.Add(It.IsAny<int>(), It.IsAny<int>()))
