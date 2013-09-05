@@ -19,28 +19,27 @@
 namespace Moq.Sdk
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
-    public abstract class MockBase : IMock
+    public class DelegateBehavior : IBehavior
     {
-        protected MockBase()
+        private Func<IInvocation, bool> appliesTo;
+        private Action<IInvocation> executeFor;
+
+        public DelegateBehavior(Action<IInvocation> execute, Func<IInvocation, bool> appliesTo = null)
         {
-            this.Invocations = new List<IInvocation>();
-            this.Behaviors = new List<IBehavior>();
+            this.appliesTo = appliesTo ?? (i => true);
+            this.executeFor = execute;
         }
 
-        public virtual void Invoke(IInvocation invocation)
+        public bool AppliesTo(IInvocation invocation)
         {
-            this.Invocations.Add(invocation);
-
-            var behavior = this.Behaviors.FirstOrDefault(x => x.AppliesTo(invocation));
-            if (behavior != null)
-                behavior.ExecuteFor(invocation);
+            return this.appliesTo.Invoke(invocation);
         }
 
-        public IList<IBehavior> Behaviors { get; private set; }
-        public IList<IInvocation> Invocations { get; private set; }
+        public void ExecuteFor(IInvocation invocation)
+        {
+            this.executeFor(invocation);
+        }
     }
 }

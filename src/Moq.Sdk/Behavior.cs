@@ -22,7 +22,7 @@ namespace Moq.Sdk
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Behavior
+    public class Behavior : IBehavior
     {
         private Func<IInvocation, bool> appliesTo;
 

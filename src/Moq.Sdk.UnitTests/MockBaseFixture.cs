@@ -43,13 +43,7 @@ namespace Moq.Sdk.UnitTests
             var mock = new TestMock();
             IInvocation invocation = null;
 
-            var behavior = new Behavior(i => true)
-                {
-                    Invoke =
-                    {
-                        new DelegateAspect(i => true, i => { invocation = i; return BehaviorAction.Continue; })
-                    }
-                };
+            var behavior = new DelegateBehavior(i => invocation = i);
 
             mock.Behaviors.Add(behavior);
 

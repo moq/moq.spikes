@@ -33,7 +33,9 @@
     <Compile Include="DelegateAspect.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DelegateBehavior.cs" />
     <Compile Include="IAspect.cs" />
+    <Compile Include="IBehavior.cs" />
     <Compile Include="IInvocation.cs" />
     <Compile Include="IMock.cs" />
     <Compile Include="IProxyFactory.cs" />
