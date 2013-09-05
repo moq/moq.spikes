@@ -1,3 +1,1 @@
-﻿- Turn off aspects before invocation (add AppliesTo)
-- Allow aspects to stop calling further aspects (add Continue/Stop return value? Refactor to receive delegate for next?)
-- Create Castle proxy factory for more realistic testing
+﻿- Create Castle proxy factory for more realistic testing

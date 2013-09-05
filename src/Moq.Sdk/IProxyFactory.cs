@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
-<!--
+﻿#region Apache Licensed
+/*
  Copyright 2013 Clarius Consulting, Daniel Cazzulino
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +13,15 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
--->
+*/
+#endregion
 
-<packages>
-  <package id="Castle.Core" version="3.2.0" targetFramework="net45" />
-  <package id="Unity" version="3.0.1304.0" targetFramework="net45" />
-  <package id="xunit" version="1.9.1" targetFramework="net40" />
-</packages>
+namespace Moq.Sdk
+{
+    using System;
+
+    public interface IProxyFactory
+    {
+        object CreateProxy(IMock mock, Type type);
+    }
+}

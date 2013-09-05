@@ -23,7 +23,7 @@ namespace Moq.Sdk
     using System.Linq;
     using System.Reflection;
 
-    public class ProxyFactory
+    public class ProxyFactory : IProxyFactory
     {
         public object CreateProxy(IMock mock, Type type)
         {

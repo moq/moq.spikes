@@ -35,6 +35,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,7 +46,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CastleProxyFactory.cs" />
+    <Compile Include="DynamicProxyFixture.cs" />
     <Compile Include="ICalculator.cs" />
+    <Compile Include="Mock.cs" />
     <Compile Include="MockBaseFixture.cs" />
     <Compile Include="ProxyFactory.cs" />
     <Compile Include="ProxyFixture.cs" />
