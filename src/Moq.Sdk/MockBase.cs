@@ -23,24 +23,55 @@ namespace Moq.Sdk
     using System.Linq;
     using System.Reflection;
 
+	/// <summary>
+	/// Base class that mock libraries can use to inherit 
+	/// their mock classes from.
+	/// </summary>
     public abstract class MockBase : IMock
     {
+		Lazy<object> instance;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MockBase"/> class.
+		/// </summary>
         protected MockBase()
         {
-            this.Invocations = new List<IInvocation>();
-            this.Behaviors = new List<IBehavior>();
+			instance = new Lazy<object>(CreateObject);
+            Invocations = new List<IInvocation>();
+            Behaviors = new List<IBehavior>();
         }
 
-        public virtual void Invoke(IInvocation invocation)
-        {
-            this.Invocations.Add(invocation);
-
-            var behavior = this.Behaviors.FirstOrDefault(x => x.AppliesTo(invocation));
-            if (behavior != null)
-                behavior.ExecuteFor(invocation);
-        }
-
+		/// <summary>
+		/// Gets the list of configured behaviors for this mock.
+		/// </summary>
         public IList<IBehavior> Behaviors { get; private set; }
+
+		/// <summary>
+		/// Gets all the invocations that were performed on the mock instance.
+		/// </summary>
         public IList<IInvocation> Invocations { get; private set; }
-    }
+
+		/// <summary>
+		/// Gets the mocked object instance.
+		/// </summary>
+		public object Object { get { return instance.Value; } }
+
+		/// <summary>
+		/// Performs an invocation on the mock.
+		/// </summary>
+		/// <remarks>
+		/// Whether or not a behavior matches the invocation, the actual invocation
+		/// is always recorded.
+		/// </remarks>
+		public virtual void Invoke(IInvocation invocation)
+		{
+			Invocations.Add(invocation);
+
+			var behavior = Behaviors.FirstOrDefault(x => x.AppliesTo(invocation));
+			if (behavior != null)
+				behavior.ExecuteFor(invocation);
+		}
+
+		protected abstract object CreateObject();
+	}
 }

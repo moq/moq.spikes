@@ -22,23 +22,23 @@ namespace Moq.Sdk
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Behavior : IBehavior
+    public class CompositeBehavior : IBehavior
     {
         private Func<IInvocation, bool> appliesTo;
 
-        public Behavior(Func<IInvocation, bool> appliesTo)
+        public CompositeBehavior(Func<IInvocation, bool> appliesTo)
         {
-            this.Before = new List<IAspect>();
-            this.Invoke = new List<IAspect>();
-            this.After = new List<IAspect>();
+            this.Before = new List<IBehavior>();
+			this.Invoke = new List<IBehavior>();
+			this.After = new List<IBehavior>();
             this.Invocations = new List<IInvocation>();
 
             this.appliesTo = appliesTo;
         }
 
-        public IList<IAspect> Before { get; private set; }
-        public IList<IAspect> Invoke { get; private set; }
-        public IList<IAspect> After { get; private set; }
+		public IList<IBehavior> Before { get; private set; }
+		public IList<IBehavior> Invoke { get; private set; }
+		public IList<IBehavior> After { get; private set; }
 
         public IList<IInvocation> Invocations { get; private set; }
 
@@ -51,17 +51,16 @@ namespace Moq.Sdk
         {
             this.Invocations.Add(invocation);
 
-            ExecuteAspects(this.Before, invocation);
-            ExecuteAspects(this.Invoke, invocation);
-            ExecuteAspects(this.After, invocation);
+            ExecuteBehaviors(this.Before, invocation);
+            ExecuteBehaviors(this.Invoke, invocation);
+            ExecuteBehaviors(this.After, invocation);
         }
 
-        private void ExecuteAspects(IEnumerable<IAspect> aspects, IInvocation invocation)
+		private void ExecuteBehaviors(IEnumerable<IBehavior> aspects, IInvocation invocation)
         {
             foreach (var aspect in aspects.Where(x => x.AppliesTo(invocation)))
             {
-                if (aspect.ExecuteFor(invocation) == BehaviorAction.Stop)
-                    break;
+				aspect.ExecuteFor(invocation);
             }
         }
     }

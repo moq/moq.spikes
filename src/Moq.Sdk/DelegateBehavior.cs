@@ -18,8 +18,9 @@
 
 namespace Moq.Sdk
 {
-    using System;
-    using System.Linq;
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
     public class DelegateBehavior : IBehavior
     {
@@ -30,7 +31,10 @@ namespace Moq.Sdk
         {
             this.appliesTo = appliesTo ?? (i => true);
             this.executeFor = execute;
+			this.Invocations = new List<IInvocation>();
         }
+
+		public IList<IInvocation> Invocations { get; private set; }
 
         public bool AppliesTo(IInvocation invocation)
         {
@@ -39,7 +43,8 @@ namespace Moq.Sdk
 
         public void ExecuteFor(IInvocation invocation)
         {
-            this.executeFor(invocation);
+			this.Invocations.Add(invocation);
+			this.executeFor(invocation);
         }
     }
 }

@@ -19,10 +19,34 @@
 namespace Moq.Sdk
 {
     using System;
+	using System.Collections.Generic;
 
+	/// <summary>
+	/// A behavior encapsulates both a matching condition for an invocation 
+	/// (<see cref="AppliesTo"/>) as well as its execution (<see cref="ExecuteFor"/>).
+	/// It represents what most mocking libraries call a "setup" or "expectation".
+	/// </summary>
+	/// <remarks>
+	/// Behaviors track the number of times they have been invoked, for later 
+	/// verification purposes.
+	/// </remarks>
     public interface IBehavior
     {
+		/// <summary>
+		/// Gets the list of invocations performed so far for this 
+		/// behavior.
+		/// </summary>
+		IList<IInvocation> Invocations { get; }
+
+		/// <summary>
+		/// Determines whether the current behavior applies to the 
+		/// given invocation.
+		/// </summary>
         bool AppliesTo(IInvocation invocation);
+
+		/// <summary>
+		/// Executes the behavior for the given invocation.
+		/// </summary>
         void ExecuteFor(IInvocation invocation);
     }
 }

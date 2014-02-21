@@ -18,83 +18,87 @@
 
 namespace Moq.Sdk.UnitTests
 {
-    using Castle.DynamicProxy;
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using ICastleInvocation = Castle.DynamicProxy.IInvocation;
+	using Castle.DynamicProxy;
+	using System;
+	using System.Linq;
+	using System.Reflection;
+	using ICastleInvocation = Castle.DynamicProxy.IInvocation;
 
-    public class CastleProxyFactory : IProxyFactory
-    {
-        private static readonly ProxyGenerator generator = new ProxyGenerator();
+	public class CastleProxyFactory : IProxyFactory
+	{
+		private static readonly ProxyGenerator generator = new ProxyGenerator();
 
-        public object CreateProxy(IMock mock, Type type)
-        {
-            if (type.IsInterface)
-            {
-                return generator.CreateInterfaceProxyWithoutTarget(type, new ForwardingInterceptor(mock));
-            }
+		public object CreateProxy(IMock mock, Type type)
+		{
+			if (type.IsInterface)
+			{
+				return generator.CreateInterfaceProxyWithoutTarget(type, new[] { typeof(IMocked) }, ProxyGenerationOptions.Default, new ForwardingInterceptor(mock));
+			}
 
-            return generator.CreateClassProxy(type, new ForwardingInterceptor(mock));
-        }
+			return generator.CreateClassProxy(type, new[] { typeof(IMocked) }, ProxyGenerationOptions.Default, new ForwardingInterceptor(mock));
+		}
 
-        // Forwards intercepted calls to the proxied mock.
-        private class ForwardingInterceptor : IInterceptor
-        {
-            private IMock mock;
+		// Forwards intercepted calls to the proxied mock.
+		private class ForwardingInterceptor : IInterceptor
+		{
+			private IMock mock;
 
-            internal ForwardingInterceptor(IMock mock)
-            {
-                this.mock = mock;
-            }
+			internal ForwardingInterceptor(IMock mock)
+			{
+				this.mock = mock;
+			}
 
-            public void Intercept(ICastleInvocation invocation)
-            {
-                this.mock.Invoke(new InvocationAdapter(invocation, this.mock));
-            }
-        }
+			public void Intercept(ICastleInvocation invocation)
+			{
+				if (invocation.Method.DeclaringType == typeof (IMocked)) {
 
-        private class InvocationAdapter : Moq.Sdk.IInvocation
-        {
-            private ICastleInvocation invocation;
-            private IMock mock;
+				}
 
-            internal InvocationAdapter(ICastleInvocation invocation, IMock mock)
-            {
-                this.invocation = invocation;
-                this.mock = mock;
-            }
+				this.mock.Invoke(new InvocationAdapter(invocation, this.mock));
+			}
+		}
 
-            public IMock Mock
-            {
-                get { return this.mock as IMock; }
-            }
+		private class InvocationAdapter : Moq.Sdk.IInvocation
+		{
+			private ICastleInvocation invocation;
+			private IMock mock;
 
-            public object[] Arguments
-            {
-                get { return this.invocation.Arguments; }
-            }
+			internal InvocationAdapter(ICastleInvocation invocation, IMock mock)
+			{
+				this.invocation = invocation;
+				this.mock = mock;
+			}
 
-            public MethodBase Method
-            {
-                get { return this.invocation.Method; }
-            }
+			public IMock Mock
+			{
+				get { return this.mock as IMock; }
+			}
 
-            public object ReturnValue
-            {
-                get { return this.invocation.ReturnValue; }
-                set { this.invocation.ReturnValue = value; }
-            }
+			public object[] Arguments
+			{
+				get { return this.invocation.Arguments; }
+			}
 
-            public void InvokeBase()
-            {
-                this.invocation.Proceed();
-            }
+			public MethodBase Method
+			{
+				get { return this.invocation.Method; }
+			}
 
-            public object Target
-            {
-                get { return this.invocation.InvocationTarget; }
-            }
-        }
-    }
+			public object ReturnValue
+			{
+				get { return this.invocation.ReturnValue; }
+				set { this.invocation.ReturnValue = value; }
+			}
+
+			public void InvokeBase()
+			{
+				this.invocation.Proceed();
+			}
+
+			public object Target
+			{
+				get { return this.invocation.InvocationTarget; }
+			}
+		}
+	}
 }

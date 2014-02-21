@@ -39,10 +39,15 @@ namespace Moq.Sdk.UnitTests
             base.Invoke(invocation);
 
             this.LastCall = invocation;
-            if (callBase)
-                invocation.InvokeBase();
-            else
-                invocation.ReturnValue = this.defaultValue;
+			//if (callBase)
+			//	invocation.InvokeBase();
+			//else
+			//	invocation.ReturnValue = this.defaultValue;
         }
-    }
+
+		protected override object CreateObject()
+		{
+			return new object();
+		}
+	}
 }

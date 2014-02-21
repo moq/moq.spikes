@@ -24,21 +24,14 @@ namespace Moq.Sdk.UnitTests
     public class Mock<T> : MockBase
         where T : class
     {
-        private T instance;
-
-        public T Object
+        public new T Object
         {
-            get
-            {
-                return instance ?? InitializeInstance();
-            }
+			get { return (T)base.Object; }
         }
 
-        private T InitializeInstance()
-        {
-            this.instance = (T)new CastleProxyFactory().CreateProxy(this, typeof(T));
-
-            return this.instance;
-        }
-    }
+		protected override object CreateObject()
+		{
+			return new CastleProxyFactory().CreateProxy(this, typeof(T));
+		}
+	}
 }

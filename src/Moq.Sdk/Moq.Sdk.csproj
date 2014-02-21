@@ -28,16 +28,12 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BehaviorAction.cs" />
-    <Compile Include="Behavior.cs" />
-    <Compile Include="DelegateAspect.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="CompositeBehavior.cs" />
     <Compile Include="DelegateBehavior.cs" />
-    <Compile Include="IAspect.cs" />
     <Compile Include="IBehavior.cs" />
     <Compile Include="IInvocation.cs" />
     <Compile Include="IMock.cs" />
+    <Compile Include="IMocked.cs" />
     <Compile Include="IProxyFactory.cs" />
     <Compile Include="MockBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

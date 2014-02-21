@@ -22,30 +22,11 @@ namespace Moq.Sdk.UnitTests
     using System.Linq;
     using Xunit;
 
-    public class DynamicProxyFixture
+    public class DynamicProxyFixture : ProxyFactoryFixture
     {
-        [Fact]
-        public void when_invoking_dynamic_proxy_then_invokes_mock_behavior()
-        {
-            var mock = new Mock<ICalculator>();
-            mock.Behaviors.Add(new Behavior(i => true)
-                {
-                    Invoke =
-                    {
-                        new DelegateAspect(i => true, i =>
-                        {
-                            i.ReturnValue = 15;
-                            return BehaviorAction.Continue;
-                        })
-                    }
-                });
-
-            var calculator = mock.Object;
-
-            Assert.NotNull(calculator);
-            Assert.Equal(15, calculator.Add(0, 0));
-            Assert.Equal(1, mock.Invocations.Count);
-            Assert.Equal(1, mock.Behaviors[0].Invocations.Count);
-        }
-    }
+		protected override IMock CreateMock(Type type)
+		{
+			return (IMock)Activator.CreateInstance(typeof(Mock<>).MakeGenericType(type));
+		}
+	}
 }

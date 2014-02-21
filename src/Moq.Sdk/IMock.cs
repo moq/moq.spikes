@@ -20,13 +20,35 @@ namespace Moq.Sdk
 {
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
 
+	/// <summary>
+	/// Represents a mocked object with its configured <see cref="Behaviors"/> 
+	/// and performed <see cref="Invocations"/>.
+	/// </summary>
     public interface IMock
     {
-        IList<Behavior> Behaviors { get; }
-        IList<IInvocation> Invocations { get; }
+		/// <summary>
+		/// Gets the list of configured behaviors for this mock.
+		/// </summary>
+        IList<IBehavior> Behaviors { get; }
 
+		/// <summary>
+		/// Gets all the invocations that were performed on the mock instance.
+		/// </summary>
+		IList<IInvocation> Invocations { get; }
+
+		/// <summary>
+		/// Gets the mocked object instance.
+		/// </summary>
+		object Object { get; }
+
+		/// <summary>
+		/// Performs an invocation on the mock.
+		/// </summary>
+		/// <remarks>
+		/// Whether or not a behavior matches the invocation, the actual invocation 
+		/// is always recorded.
+		/// </remarks>
         void Invoke(IInvocation invocation);
     }
 }

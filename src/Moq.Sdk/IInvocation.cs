@@ -28,7 +28,5 @@ namespace Moq.Sdk
         MethodBase Method { get; }
         object[] Arguments { get; }
         object ReturnValue { get; set; }
-        
-        void InvokeBase();
     }
 }
