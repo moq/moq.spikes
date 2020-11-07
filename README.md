@@ -1,9 +1,8 @@
 moq
 ===
 
-The most popular and friendly mocking framework for .NET
+Spikes resulted in :
+- https://github.com/kzu/avatar
+- https://github.com/moq/moq
 
-
-> NOTE: this repository is the playground for vNext. The current stable Moq repository is [moq4](https://github.com/Moq/moq4)
-
-> ISSUES: [moq4](https://github.com/Moq/moq4/issues)
+Both make the foundation of Moq v5
